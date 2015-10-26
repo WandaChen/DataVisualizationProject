@@ -1,6 +1,6 @@
 # DataVisualizationProject
 ### Summary
-Gender Wage Gap Project  - Using Data visualization to see different countries' median gender wage gap in the 21st Century.
+Gender Wage Gap Project  - Using Data visualization to see different countries' median gender wage gap in the 21st Century.  Recently I heard a news regarding equal paid for both male and female, it made me more interesting on this issue.  I wondered if culture or other issues caused the gender wage gap.
 
 ### Design
 1.	Data Selection – I decided to pick the data that is from OECD Data about Gender Wage gap https://data.oecd.org/earnwage/gender-wage-gap.htm.  When I saw the map, it shows similar to the D3 lesson that about World Cup.  But it also made me interested and want to answer the questions that is - “Will gender wage gap depend on the country that is label as first World, developing country, or other cultural background will affect the gender wage gap?”  Especially recently I heard on the news about the equal pay for both male and female.  It makes me even more interesting on this issue.
@@ -10,12 +10,13 @@ Gender Wage Gap Project  - Using Data visualization to see different countries' 
 5.	After created the multi-line charts, I added different colors to each country in the data set.  There were 36 countries, and 334 lines of data.  I saw one of multi-lines examples showing both animation and interactive through legend.  I decided to use this idea as my interactive with user.
 6.	Legend - Since there was 36 countries in the dataset, if list all of them in one row or column, it since really confusing.  So I turned them into the 3 rows of legend that is below the main graph.  It also acted as keys for user to interact.
 7.	Interact -  I saw one of example use bootstrap to show to 2 graphs on the same screen, so I decided to use this idea to show my interactive graph.
-* User can hover the scatter plot point to see the information.  However, since there was more than 300 points on the graph, and it is difficult to see one country's data.  
-* User can click on the country code legend to see more detail for that country:
-- show the bar graph with each individual value (below the main graph)
-- the line that belongs to the selected country will be enhanced (thicker than other)
+     * User can hover the scatter plot point to see the information.  However, since there was more than 300 points on the graph, and it is difficult to see one country's data.  
+     * User can click on the country code legend to see more detail for that country:
+          - show the bar graph with each individual value (below the main graph)
+          - the line that belongs to the selected country will be enhanced (thicker than other)
 
 ### Feedback
+
 
 ### Resources
 1.	OECD (2015), Gender wage gap (indicator). doi: 10.1787/7cee77aa-en (Accessed on 10 October 2015)
