@@ -1,6 +1,6 @@
 # DataVisualizationProject
 ### Summary
-Gender Wage Gap Project  - Using Data visualization to see different countries' median gender wage gap in the 21st Century.  Recently I heard a news regarding equal paid for both male and female, it made me more interesting on this issue.  I wondered if culture or other issues caused the gender wage gap.
+Gender Wage Gap Project  - Using Data visualization to see different countries' median gender wage gap in the 21st Century.  Recently I heard a news regarding equal paid for both male and female, it made me more interesting on this issue.  I wondered if culture or other issues caused the gender wage gap.  The top 2 countries that have largest gender wage gap (Korea and Japan) might be due to the culture issue  - Male chauvinism.
 
 ### Design
 1.	Data Selection – I decided to pick the data that is from OECD Data about Gender Wage gap https://data.oecd.org/earnwage/gender-wage-gap.htm.  When I saw the map, it shows similar to the D3 lesson that about World Cup.  But it also made me interested and want to answer the questions that is - “Will gender wage gap depend on the country that is label as first World, developing country, or other cultural background will affect the gender wage gap?”  Especially recently I heard on the news about the equal pay for both male and female.  It makes me even more interesting on this issue.
@@ -16,7 +16,20 @@ Gender Wage Gap Project  - Using Data visualization to see different countries' 
           - the line that belongs to the selected country will be enhanced (thicker than other)
 
 ### Feedback
-
+Questions for feed back response:
+  * What do you notice in the visualization?
+  * WHat questions do you have about the data?
+  * What relationships do you notice?
+  * What do you think is the main takeaway from this visualization?
+  * Is there something you don't understand in the graph?
+  
+#### Version 1 
+1. 17 years old high school girl:
+    - (Q1) The gender wage gap between men and women is increaseing for some countries and decreasing for others.
+    - (Q2) Why does every country have a similiar trend of going up/down?
+    - (Q3) They all have a similar trend.
+    - (Q4) Not enough knowledge to make statement
+    - (Q5) I don't know why this topic is significant to the people of today.
 
 ### Resources
 1.	OECD (2015), Gender wage gap (indicator). doi: 10.1787/7cee77aa-en (Accessed on 10 October 2015)
