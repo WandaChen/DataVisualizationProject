@@ -19,7 +19,8 @@ Gender Wage Gap Project  - Using Data visualization to see different countries' 
      * User can click on the country code legend to see more detail for that country:
           - show the bar graph with each individual value (below the main graph)
           - the line that belongs to the selected country will be enhanced (thicker than other)
-#####(update for Version 2)
+
+(update for Version 2)
 8. Make line in the line graph thinner and more opacity, and change the bottom graph smaller.
 9. Update the name for country code.  So when a user clicks the country code in the legend table, in the area 2 header, it shows the country name and code, especially for the code that is really different than the country name.
  
