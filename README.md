@@ -19,7 +19,10 @@ Gender Wage Gap Project  - Using Data visualization to see different countries' 
      * User can click on the country code legend to see more detail for that country:
           - show the bar graph with each individual value (below the main graph)
           - the line that belongs to the selected country will be enhanced (thicker than other)
-
+#####(update for Version 2)
+8. Make line in the line graph thinner and more opacity, and change the bottom graph smaller.
+9. Update the name for country code.  So when a user clicks the country code in the legend table, in the area 2 header, it shows the country name and code, especially for the code that is really different than the country name.
+ 
 ### Feedback
 Questions for feed back response:
   * What do you notice in the visualization?
@@ -28,8 +31,8 @@ Questions for feed back response:
   * What do you think is the main takeaway from this visualization?
   * Is there something you don't understand in the graph?
   
-#### Version 1 
-1. 17 years old high school girl:
+##### Version 1 
+1. A High school girl (my daughter):
     - (Q1) The gender wage gap between men and women is increaseing for some countries and decreasing for others.
     - (Q2) Why does every country have a similiar trend of going up/down?
     - (Q3) They all have a similar trend.
@@ -41,6 +44,15 @@ Questions for feed back response:
     - (Q3) a few are close to 0%, then drift up.
     - (Q4) wide spread of gaps ,median unknow.
     - (Q5) How does the difference show the women's earnings gap? What is the mathematics formula to calculate the percentage?
+3. Amir (Udacity):
+    - (Q1) I notice a very dense visualization
+    - (Q2) How come Hungary took decreased significantly in 2003?
+    - (Q3) I notice that KOR has the worst gender wage gap.
+    - (Q4) That wage gaps are decreasing over time
+    - (Q5) I don't understand the bar graphs at the bottom. They seem to be the same as the line graph above. How come you don't simply dim the other lines, add labels to the points when one country's line is selected?
+
+##### Response to version 1 Feedback
+Because I do not know how the data was collected and calculated, I really cannout explain why some countries have dramatic difference between years.  When I download the data, it already included the calculated percentage values. 
 
 ### Resources
 1.	OECD (2015), Gender wage gap (indicator). doi: 10.1787/7cee77aa-en (Accessed on 10 October 2015)
@@ -53,6 +65,5 @@ http://www.oecd-ilibrary.org/employment/gender-wage-gap/indicator/english_7cee77
 7.	http://www.delimited.io/blog/2014/3/3/creating-multi-series-charts-in-d3-lines-bars-area-and-streamgraphs
 8.	http://bl.ocks.org/phoebebright/raw/3176159/
 9.	Small Multiples mbostock’s block #1157787 August 19, 2011 http://bl.ocks.org/mbostock/1157787
-10.	saadkhan321’s block #3afb4229b42e81dfcace July 29, 2015 http://bl.ocks.org/saadkhan321/3afb4229b42e81dfcace
-11.	Multi-line graph with automatic legend and toggling show / hide lines.
+10.	Multi-line graph with automatic legend and toggling show / hide lines.
  http://www.d3noob.org/2014/07/d3js-multi-line-graph-with-automatic.html
