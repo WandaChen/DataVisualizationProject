@@ -20,17 +20,24 @@ Gender Wage Gap Project  - Using Data visualization to see different countries' 
           - show the bar graph with each individual value (below the main graph)
           - the line that belongs to the selected country will be enhanced (thicker than other)
 
-(update for Version 2)
+*(update for Version 2) *
 8. Make line in the line graph thinner and more opacity, and change the bottom graph smaller.
 9. Update the name for country code.  So when a user clicks the country code in the legend table, in the area 2 header, it shows the country name and code, especially for the code that is really different than the country name.
+
+10.  After modified the all, I think I need to make it more explanatory instead of exploratory graph.  So I redesign for the whole graph for version 3.
+* (Update for version 3)
+1) Instead of legend show the country code, it will display continent names that I separated it to 7 of them.  It will reflect in the scatter plot's dots.
+2) Update the hover information to add country name to it.
+3) Instead of bar graph for each country, it will display line chart for each continent alongs in the countries in that continent.
+
  
 ### Feedback
 Questions for feed back response:
-  * What do you notice in the visualization?
-  * WHat questions do you have about the data?
-  * What relationships do you notice?
-  * What do you think is the main takeaway from this visualization?
-  * Is there something you don't understand in the graph?
+  * (Q1) What do you notice in the visualization?
+  * (Q2) WHat questions do you have about the data?
+  * (Q3) What relationships do you notice?
+  * (Q4) What do you think is the main takeaway from this visualization?
+  * (Q5) Is there something you don't understand in the graph?
   
 ##### Version 1 
 1. A High school girl (my daughter):
@@ -51,6 +58,15 @@ Questions for feed back response:
     - (Q3) I notice that KOR has the worst gender wage gap.
     - (Q4) That wage gaps are decreasing over time
     - (Q5) I don't understand the bar graphs at the bottom. They seem to be the same as the line graph above. How come you don't simply dim the other lines, add labels to the points when one country's line is selected?
+4. Lucille (friend):
+    - (Q1) Because there are such a large number of countries represented, the line graph has so many lines the data is a little hard to distinguish without selecting the countries one at a time.  You can see a trend that while there is some improvement, the percentage of median wage gap is generally flat for the 12 year period.  The ability to select the bar chart for individual countries is helpful.
+    - (Q2) 
+        *What types of jobs do these wages represent?  professional, blue collar, etc.
+        *Where are the jobs located?  Are they in the big cities or elsewhere in the countries.
+        *Was there a specific age group of men and women that was used?  Education level?
+    - (Q3) The most obvious is the large wage gaps in Korea and Japan.  Because the country codes were not clear to me, I am not sure if other Asian countries had the same trend.  In general, the gaps in most countries seem to be lessening, however slowly.
+    - (Q4) There is a worldwide wage gap between men and women, not specific to any particular country, although the size of the gap varies quite a bit.  It also shows that the gaps are not being closed very rapidly; only a few percentage points at best over the 12 year period.
+    - (Q5) I believe I understand the graph and data, but I do not know all the country codes.
 
 ##### Response to version 1 Feedback
 Because I do not know how the data was collected and calculated, I really cannout explain why some countries have dramatic difference between years.  When I download the data, it already included the calculated percentage values. 
