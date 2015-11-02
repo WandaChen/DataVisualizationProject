@@ -20,7 +20,8 @@ Gender Wage Gap Project  - Using Data visualization to see different countries' 
           - show the bar graph with each individual value (below the main graph)
           - the line that belongs to the selected country will be enhanced (thicker than other)
 
-*(update for Version 2) *
+*(update for Version 2) 
+
 8. Make line in the line graph thinner and more opacity, and change the bottom graph smaller.
 9. Update the name for country code.  So when a user clicks the country code in the legend table, in the area 2 header, it shows the country name and code, especially for the code that is really different than the country name.
 
@@ -29,7 +30,7 @@ Gender Wage Gap Project  - Using Data visualization to see different countries' 
 1) Instead of legend show the country code, it will display continent names that I separated it to 7 of them.  It will reflect in the scatter plot's dots.
 2) Update the hover information to add country name to it.
 3) Instead of bar graph for each country, it will display line chart for each continent alongs in the countries in that continent.
-
+4) It is similar to the whole continent, but in a smaller size.
  
 ### Feedback
 Questions for feed back response:
