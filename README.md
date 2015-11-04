@@ -3,9 +3,11 @@
 Recently I heard a news regarding equal pay for both male and female, which made me more interested in this issue. I wondered if culture or other issues caused the gender wage gap.   
 
 ### Summary
-Gender Wage Gap Project  - Using Data visualization to see different countries' median gender wage gap in the 21st Century.  1) The top 2 countries that have the largest gender wage gap (Korea and Japan) might be due to culture issues - Male chauvinism for example.  
-2) New Zealand seems to have the lowest percentage across the years.  Although Hungry had the lowest percentage for a few years,  it also had a few years that were more than 10%.
-3) Most of the countries' gender wage gap between male and female was between 10% and 25%.
+Gender Wage Gap Project  - Using Data visualization to see different countries' median gender wage gap in the 21st Century.
+    - 1 The top 2 countries that have the largest gender wage gap (Korea and Japan) might be due to culture issues - Male chauvinism for example.  
+    - 2 New Zealand seems to have the lowest percentage across the years.  Although Hungry had the lowest percentage for a few years,  it also had a few years that were more than 10%.
+    - 3 Most of the countries' gender wage gap between male and female was between 10% and 25%.
+    - 4 Although many countries' gap were showing decreasing, it seemed Western Europe and Northern Europe countries had more steady rate of decreasing.
 
 ### Design
 1.	Data Selection – I decided to pick the data that is from OECD Data about Gender Wage gap https://data.oecd.org/earnwage/gender-wage-gap.htm.  When I saw the map, it looked similar to the D3 lesson that about World Cup.  But it also made me interested and wanted to answer the question - “Will gender wage gap depend on the country that is labeled as first World, developing country, or will other cultural background affect the gender wage gap?”  Especially recently I heard on the news about the equal pay for both male and female.  It maked me even more interested in this issue.
