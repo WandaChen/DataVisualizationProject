@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style> /* set the CSS */
+
+body { font: 12px sans-serif;}
+
+path { 
+    stroke: steelblue;
+    stroke-width: 2;
+    fill: none;
+}
+
+.axis path,
+.axis line {
+    fill: none;
+    stroke: black;
+    stroke-width: 1;
+    shape-rendering: crispEdges;
+}
+h1 {
+    color: black;
+    font-style: bold;
+    text-align: center;
+}
+h2 {
+    color: black;
+    font-style: bold;
+    text-align: left;
+}
+.legend {
+    font-size: 14px;
+    font-weight: bold;
+    text-anchor: left;
+}
+.datapoint:hover{
+    fill: black;
+}
+div.tooltip {   
+    position: absolute;         
+    text-align: center;         
+    width: 75px;                    
+    height: 75px;                   
+    padding: 2px;               
+    font: 14px sans-serif;      
+    background: lightgrey; 
+    border: 0px;        
+    border-radius: 8px;         
+    pointer-events: none;           
+}
+.text {
+    font-style: normal;
+    font-size: 12px;
+}
+</style>
+
+<head>
+<div class="row">
+  <div class="col-md-2"> 
+    <h2><p>The top graph shows all the countries gender gap information.
+    The bottom graph(s) shows the continent user clicked in the legend. </p> 
+    </h2>
+
+    <p>Definition of Gender wage gap - The gender wage gap is unadjusted and is defined as the difference between median earnings of men and women relative to median earnings of men. Data refer to full-time employees.
+    http://mathbabe.org/2015/11/02/the-gender-wage-gap-is-not-misleading/
+    </p>
+    <p><b>To interact with the graph: </b> </br>
+    <i>1. Click the continent to active line/scatter plot graph, and enhanced the line of the country.  Click again to disable the darken line.</i></br>
+    <i>2. Mouse hover the data point to see more information. </i> </p> </br> </br>
+
+  </div>
+  <div class="col-md-5" id="area1"></div>
+  <div class="col-md-5" id="area2"></div>
+</div>
+<!-- load the d3.js library -->    
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="http://code.jquery.com/jquery.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
+</head>
+
+<body>
+    <script>
+    /* Version 5: 
+            1. Change main graph to continent graph 
+            2. Enable the continent highlight when clicked on it           
+    */
+
+    // Set the dimensions of the canvas / line graph
+    var margin = {top: 30, right: 20, bottom: 100, left: 50},
+        width = 900 - margin.left - margin.right,
+        height = 650 - margin.top - margin.bottom;
+
+    // Set the dimensions of the bar graph 
+    var margin1 = {top1: 20, right1: 140, bottom1: 40, left1: 40},
+        width1 = 700 - margin1.left1 - margin1.right1,  
+        height1 = 300 - margin1.top1 - margin1.bottom1; 
+        //width1 = 800, height1 = 450;
+
+    // Parse the date / time
+    var parseDate = d3.time.format("%Y").parse; 
+    var radius = 5;
+    var color = d3.scale.category10();
+                
+    // display header 
+    d3.select("body")
+        .append("h1")
+        .text("Gender Wage Gap  - % of male median wage");
+
+    // Set the ranges
+    var x_scale = d3.scale.linear().range([0, width-20]);
+    var y_scale = d3.scale.linear().range([height, 0]);
+
+    // Define the axes
+    var xAxis = d3.svg.axis().scale(x_scale)
+        .orient("bottom");
+
+    var yAxis = d3.svg.axis().scale(y_scale)
+        .orient("left");
+
+    // Scale the range of the data
+    var x = d3.time.scale().range([0, width1], 0.01);
+    var y = d3.scale.linear().range([height1, 0]);
+          
+    var xAxis2 = d3.svg.axis().scale(x)
+                .orient("bottom").ticks(d3.time.years, 1);
+
+    var yAxis2 = d3.svg.axis().scale(y).orient("left");
+
+    // Define the div for the tooltip
+    var div = d3.select("body").append("div")   
+        .attr("class", "tooltip")               
+        .style("opacity", 0);
+        
+    // Adds the svg canvas
+    var chart1 = d3.select("#area1")
+        .append("svg")
+            .attr("width", width + margin.left + margin.right)    
+            .attr("height", height + margin.top + margin.bottom)  
+        .append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    
+    // list all the coountry code for later use - in the legend calculation
+    var CCode = ["AUS","AUT","BEL","CAN","CZE","DNK","FIN","FRA","DEU","GRC","HUN","ISL","IRL","ITA","JPN","KOR","LUX","NLD","NZL","NOR","POL","PRT","SVK","ESP","SWE","CHE","TUR","GBR","USA","CHL","EST","ISR","SVN","MEX","LVA","LTU"];
+    
+    var countries = {obj: [
+            {'ccode': 'AUS', 'cname':'Australia'}, {'ccode': 'AUT', 'cname':'Austria'}, 
+            {'ccode': 'BEL', 'cname':'Belgium'}, {'ccode': 'CAN', 'cname':'Canada'}, 
+            {'ccode': 'CHE', 'cname':'Switzerland'}, {'ccode': 'CHL', 'cname':'Chile',}, 
+            {'ccode': 'CZE', 'cname':'Czech Republic'}, {'ccode': 'DEU', 'cname':'Germany'}, 
+            {'ccode': 'DNK', 'cname':'Denmark'}, {'ccode': 'ESP', 'cname':'Spain'}, 
+            {'ccode': 'EST', 'cname':'Estonia'}, {'ccode': 'FIN', 'cname':'Finland'}, 
+            {'ccode': 'FRA', 'cname':'France'}, {'ccode': 'GBR', 'cname':'United Kingdom'}, 
+            {'ccode': 'GRC', 'cname':'Greece'}, {'ccode': 'HUN', 'cname':'Hungary'}, 
+            {'ccode': 'IRL', 'cname':'Ireland'}, {'ccode':  'ISL', 'cname': 'Iceland'},
+            {'ccode': 'ISR', 'cname':'Israel'}, {'ccode': 'ITA', 'cname':'Italy'}, 
+            {'ccode': 'JPN', 'cname':'Japan'}, {'ccode': 'KOR', 'cname':'Korea'}, 
+            {'ccode': 'LTU', 'cname':'Lithuania'}, {'ccode': 'LUX', 'cname':'Luxembourg'}, 
+            {'ccode': 'LVA', 'cname':'Latvia'}, {'ccode': 'MEX', 'cname':'Mexico'}, 
+            {'ccode': 'NLD', 'cname':'Netherlands'}, {'ccode': 'NOR', 'cname':'Norway'}, 
+            {'ccode': 'NZL', 'cname':'New Zealand'}, {'ccode': 'POL', 'cname':'Poland'}, 
+            {'ccode': 'PRT', 'cname':'Portugal'}, {'ccode':'SVK', 'cname':'Slovak Republic'}, 
+            {'ccode': 'SVN', 'cname':'Slovenia'}, {'ccode':'SWE', 'cname':'Sweden'}, 
+            {'ccode': 'TUR', 'cname':'Turkey'}, {'ccode':'USA', 'cname':'United States'} 
+        ]};          
+    
+    var continent = {obj: [
+            {'cont': 'Asia', 'clist': ['ISR', 'JPN', 'KOR', 'TUR']},
+            {'cont': 'America', 'clist': ['CAN', 'CHL','MEX','USA']},
+            {'cont': 'Australia', 'clist': ['AUS', 'NZL']},
+            {'cont': 'Northern Europe', 'clist': ['DNK', 'FIN', 'GBR', 'IRL', 'ISL', 'NOR','SWE']},
+            {'cont': 'Western Europe', 'clist': ['AUT', 'BEL', 'DEU', 'FRA', 'LUX', 'NLD', 'CHE']},
+            {'cont': 'Eastern Europe', 'clist': ['CZE', 'EST', 'HUN', 'LTU', 'LVA', 'POL', 'SVK', 'SVN']},
+            {'cont': 'Southern Europe', 'clist': ['ESP', 'GRC', 'ITA', 'PRT']}
+        ]};
+    
+    var ContCode = ['Asia','America','Australia','Northern Europe','Western Europe','Eastern Europe','Southern Europe'];
+    
+    var contColor = {obj: [{'cont': 'Asia', 'ccolor':'red'}, 
+            {'cont': 'America', 'ccolor':'orange'},
+            {'cont': 'Australia', 'ccolor':'magenta'}, 
+            {'cont': 'Northern Europe', 'ccolor':'green'},
+            {'cont': 'Western Europe', 'ccolor':'blue'}, 
+            {'cont': 'Eastern Europe', 'ccolor':'brown'},
+            {'cont': 'Southern Europe', 'ccolor':'purple'} ]};
+
+    /* Convert country code to country name for more clarification.  
+    */
+    function convert_country(name) {
+        var len = countries.obj.length;
+        for (var i = 0; i < len; i++) {
+            if (name == countries.obj[i].ccode)
+                return countries.obj[i].cname;
+        }
+    } //convert_country
+
+    /* Find the continent name when gives country code 
+    */
+    function convert_continent(name) {
+        var cont = "";
+        var len = continent.obj.length;
+        for (var i = 0; i < len; i++) {
+            for (var j = 0; j < continent.obj[i].clist.length; j++) {
+                if (name == continent.obj[i].clist[j]) {
+                    cont = continent.obj[i].cont;
+                    break;
+                }
+                else
+                    continue;
+            } 
+            if (cont != "")
+                break;
+        }
+        return cont;
+    }  //convert_continent
+
+    /* get the continent color for main scatter chart when gives continent name
+    */    
+    function get_contColor(contN) {
+        var dotColor = "grey";
+        var len = contColor.obj.length
+        for (var k = 0; k < len; k++ ) {
+            //debugger;
+            if (contN == contColor.obj[k].cont) {
+                dotColor = contColor.obj[k].ccolor;
+                break;
+            }
+            else continue;
+            if (dotColor != "grey")
+                break;
+        }
+        return dotColor;
+    }   // get_contColor
+
+
+    /* Create the line/scatter graph that show more detail in the country that user selected.  It also allow user to see the country related to others.
+    */
+    function add_chart2(data, error){
+
+        // Adds the svg canvas for 2nd graph
+        var chart2 = d3.select("#area2")
+            .append("svg")
+                .attr("width", width1 + margin1.left1 + margin1.right1)
+                .attr("height", height1 + + margin1.left1 + margin1.right1)
+            .append("g")
+                .attr("transform", "translate(" + margin1.left1 + "," + margin1.top1 + ")");
+        
+        var coLine = d3.svg.line()
+            .x(function(d) { return x(d.Year); })       // x-axis
+            .y(function(d) { return y(d.percentage); });    // y-axis
+
+        // Get the data
+        var c_name = data.key;
+
+        var cdata = data.values;
+        var parseDate = d3.time.format("%Y").parse;
+        
+        cdata.forEach(function (d) {
+            name: d.key;
+            
+            d.Year = parseDate (String(d.TIME));
+            d.percentage = +d.Value;
+            // the following 3 fields are generated for easy reading
+            d.CountryName = convert_country(d.LOCATION);
+            d.ContName = convert_continent(d.LOCATION);
+            d.codename = d.CountryName + ' (' + d.LOCATION + ')';
+            
+        });
+        x.domain(d3.extent(cdata, function(d) {return d.Year; }));
+        y.domain([d3.min(cdata, function(d) { return d.percentage; })-1, d3.max(cdata, function(d) { return d.percentage; })+1 ]); 
+        
+        //var ccdata = data.values;
+        //console.log ("ccdata", ccdata);
+        var CNest = d3.nest()
+            .key(function(d) {return d.LOCATION; })
+            .sortKeys(d3.ascending)
+            .entries(cdata);
+
+        // display header for the individual country bar chart
+        chart2.append("text")
+            .attr("x", (width1 / 2))             
+            .attr("y", 0 - (margin1.top1 / 4))
+            .attr("text-anchor", "middle")  
+            .style("font-size", "16px") 
+            .style("text-decoration", "underline") 
+            .style("fill", "rgb(50,100, 250)") 
+            .style("font-weight", 800)
+            .text("Gender Wage Gap  - (Continent) " + c_name );
+
+        // go through each country in the continent and draw the graph
+        CNest.forEach(function(d, i) {
+            var cPath = d.key.replace(/\s+/g, '');
+
+            var co = d.values;
+            //var parseDate = d3.time.format("%Y").parse;
+
+            // add the line for each country
+            chart2.append("path")
+                .attr("class", "line")
+                .style("stroke", function () { return d.color = color(d.key); })
+                .style("stroke-width", 1)
+                .attr("id", 'tag'+ cPath)  // assign ID
+                .style("opacity", 1)
+                .attr("d", coLine(d.values));
+
+            // add the scatterplot - allow user to hover over and show more information on the data point 
+            chart2.selectAll("dot")
+                .data(co)
+                .enter()
+                .append("circle")
+                .attr('class','datapoint')
+                .attr("r", radius)
+                .style("opacity", 1)
+                .style("fill", function () { return d.color = color(d.key); })
+                .attr("cx", function (d) { return x(d.Year); })
+                .attr("cy", function (d) { return y(d.percentage); })
+                //adding tooltips and information when user hover over the data point
+                .on("mouseover", function(d) {      
+                    div.transition()        
+                        .duration(300)      
+                        .style("opacity", 1);      
+                    div.html(d.LOCATION + "<br/>" + d.CountryName + "<br/>" + d.TIME + "<br/>"  + d3.round(d.percentage, 2) + "%")  
+                        .style("left", (d3.event.pageX) + "px")     
+                        .style("top", (d3.event.pageY - 28) + "px");    
+                })                  
+                .on("mouseout", function(d) {  // remove the information
+                    div.transition()        
+                        .duration(500)      
+                        .style("opacity", 0);   
+                });
+            
+            //add interactive legend country list
+            chart2.append("text")                                  
+                .attr("class", "legend")    // style the legend   
+                .attr('x', width1+10)
+                .attr('y', i*25 + 20)
+                .style("fill", function() { // dynamic colors    
+                        return d.color = color(d.key); })
+                .style("font-size", "12px")
+                .text(function() {
+                    var count = d.values.length;
+                    return convert_country(d.key) + " \n (" + count + ")"; }) 
+                .on("click", function(){
+                    // Determine if current line is visible 
+                    var active   = d.active ? false : true;  
+                    var newOpacity = active ? 1 : 0.6;  
+                    var newStrokeWidth = active? 4 : 1;
+                    // regular or enhance the elements based on the ID
+                    d3.select("#tag"+ cPath) 
+                        .transition()
+                        .duration(100)
+                        .style("opacity", newOpacity)
+                        .style("stroke-width", newStrokeWidth);
+                    // Update whether or not the elements are active
+                    d.active = active;                       
+                }); // on click
+
+        }); // CNest.forEach
+
+        // Add the X Axis
+        chart2.append("g")
+            .attr("class", "x axis")
+            .attr("transform", "translate(0," + height1 + ")")
+            .call(xAxis2);
+
+        // Add the Y Axis
+        chart2.append("g")
+            .attr("class", "y axis")
+            .call(yAxis2)
+            .append("text")
+            .attr("transform", "rotate(+90)")
+            .attr("y", "4px")
+            .attr("dy", "10px");
+        
+    } // add_chart2 
+
+    // Get the data
+    d3.csv("GenderWageGap_00_12.csv", function(error, data) {
+        data.forEach(function (d) {
+            //d.Year = parseDate (String(d.TIME, 0));
+            //d.Year = new Date(d.TIME, 0);
+            d.Year = +d.TIME;  // treat the year as integer instead
+    		d.percentage = +d.Value;
+            // the following 3 fields are generated for easy reading
+            d.CountryName = convert_country(d.LOCATION);
+            d.ContName = convert_continent(d.LOCATION);
+            d.codename = d.CountryName + ' (' + d.LOCATION + ')';
+        });  // data.forEach
+
+        // Scale the range of the data
+        //x_scale.domain(d3.extent(data, function(d) { return d.Year; }));
+        x_scale.domain([d3.min(data, function(d) { return d.Year })-1, d3.max(data, function(d) { return d.Year })]); 
+
+        y_scale.domain([d3.min(data, function(d) { return d.percentage })-1, d3.max(data, function(d) { return d.percentage })]); 
+
+        // group the entries by Location (country code)
+        var CountryNest = d3.nest()
+            .key(function(d) {return d.LOCATION; })
+            .sortKeys(d3.ascending)
+            .entries(data);
+
+        // group the entries by Continent        
+        var ContNest = d3.nest()
+            .key(function(d) {return d.ContName; })
+            .sortKeys(d3.ascending)
+            .entries(data);
+
+       // Chart 1 header
+        chart1.append("text")
+            .attr("x", (width / 2))             
+            .attr("y", 0 - (margin.top / 2))
+            .attr("text-anchor", "middle")  
+            .style("font-size", "20px") 
+            .style("text-decoration", "underline")  
+            .text(" Gender Wage Gap  - Average % per Year of male median wage by Continent");
+        
+        /* Loop through each Continent/ key  & add legend & interactive
+        */
+        ContNest.forEach(function(d, i) {
+            var ctPath = d.key.replace (/\s+/g, '');
+            var gyear = d.values;
+            var cont = d.key;
+
+           // group by year            
+            var YearNest = d3.nest()
+                .key(function (d) { return d.Year; })
+                .rollup(function (v) { return {     
+                // calculate mean for each year per continent
+                        avg: d3.mean(v, function (d) { return d.percentage; })
+                    }; 
+                }) //rollup
+                .entries(gyear);
+
+            // Add the X Axis
+            chart1.append("g")
+                .attr("class", "x axis")
+                .attr("transform", "translate(0," + height + ")")
+                .call(xAxis)
+                .append("text")
+                .attr("x", width+10)
+                .attr("dx", 10)
+                .style("text-anchor", "end")
+                .text("YEAR");
+
+            // Add the Y Axis
+            chart1.append("g")
+                .attr("class", "y axis")
+                .call(yAxis)
+                .append("text")
+                .attr("transform", "rotate(-90)")
+                .attr("y", 6)
+                .attr("dy", "10px")
+                .style("text-anchor", "end")
+                .text("Average Percentage (%)");
+
+            var yLine = d3.svg.line()
+                .x(function(d) { return x_scale(d.key); })       // x-axis
+                .y(function(d) { return y_scale(d.values); });    // y-axis
+
+            var cArray = [];    // position of data point {year, average}
+            /* It will calculate yearly average for the continent and stored in cArray
+              It will use to create line and scatter plot. 
+            */
+            function get_average(data) {
+                // group by year and calculate mean for the year
+                var YearNest = d3.nest()
+                    .key(function (d) { return d.Year; })
+                    .rollup(function (v) { return {
+                        avg: d3.mean(v, function (d) { return d.percentage; })
+                        }; 
+                    })
+                    .entries(data);
+
+                YearNest.forEach(function (d) {
+                    var dp = {key: +d.key, values: d.values.avg};
+                    cArray.push(dp);
+                    return cArray;
+                }); //YearNest
+                return cArray;
+            }; // get_average
+
+             // add the line for each Continent
+            chart1.append("path")
+                .attr("class", "line")
+                .style("stroke", function () {
+                    return d.color = get_contColor(d.key); 
+                })
+                .style("stroke-width", 1)
+                .attr("id", 'tag' + ctPath)  // assign ID
+                .style("opacity", 0.6)
+                .attr("d", function() {
+                    var cArray = [];
+                    cArray = get_average(d.values);
+                    return yLine(cArray);
+                });
+
+            cArray = get_average(d.values);     // dataset for the scatter plot
+            // add the scatterplot - allow user to hover over and show more information on the data point 
+            chart1.selectAll("dot")
+                .data(cArray)
+                .enter()
+                .append("circle")
+                .attr('class', 'datapoint')
+                .attr("r", radius)
+                .style("opacity", 1)
+                .attr("fill", function (d) { 
+                    d.dotColor = get_contColor(cont); 
+                    return d.dotColor;
+                }) 
+                .attr("cx", function (d) { return x_scale(d.key); })
+                .attr("cy", function (d) { return y_scale(d.values); })
+                //adding tooltips and information when user hover over the data point
+                .on("mouseover", function(d) {      
+                    div.transition()        
+                        .duration(300)      
+                        .style("opacity", 1);      
+                    div.html(d.key + "<br/>" + cont + "<br/>" + d3.round(d.values, 2) + "% <br/>" )  
+                        .style("left", (d3.event.pageX) + "px")     
+                        .style("top", (d3.event.pageY - 28) + "px");    
+                }) // on mouseover                 
+                .on("mouseout", function(d) {  // remove the information
+                    div.transition()        
+                        .duration(500)      
+                        .style("opacity", 0);   
+                });  // on mouseout                   
+
+           // add interactive legend to the bottom of graph
+            chart1.append("text")                                  
+                .attr("class", "legend")    // style the legend   
+                .text(function () {
+                    var count = d.values.length;
+                    return d.key + " (" + count + ")"; }) 
+                .attr("x", function () {    // calculate the x position of legend
+                    var cIndex, x_pos, clen = 0;
+                    var len = ContCode.length;
+
+                    for (i = 0; i < len; i++) {
+                        if (ContCode[i] == d.key) {
+                            cIndex = i; 
+                            clen = ContCode[i].length;
+                            break;
+                        }
+                    } // for loop
+                    if (+clen < 10) {
+                        x_pos = cIndex * (Math.floor(width/len));
+                    }
+                    else {
+                        x_pos = cIndex * (Math.ceil(width/len)) ;
+                    }
+                    return x_pos; // spacing 
+                })  //.attr(x)
+                .attr('y', height + 75) 
+                .attr("text-anchor", "left")  
+                .style("fill", function() { // dynamic colors    
+                    return d.color = get_contColor(d.key)
+                })
+                .style("font-size", "12px")
+                // display thicker line and bar graph for the country that user selected
+                .on("click", function(){
+                    // clear the previous graph in chart 2 area
+                    // Use http://stackoverflow.com/questions/15642574/different-charts-in-same-div-with-d3-js to solve the problem
+                    d3.select("#area2").html('');
+
+                    // Determine if current line is visible 
+                    var active   = d.active ? false : true;  
+                    var newOpacity = active ? 1 : 0.6;  
+                    var newStrokeWidth = active? 4 : 1;
+
+                    // regular or enhance the elements based on the ID                   
+                    d3.select("#tag"+ ctPath) 
+                        .transition()
+                        .duration(100)
+                        .style("opacity", newOpacity)   
+                        .style("stroke-width", newStrokeWidth);
+
+                    add_chart2(d);                              
+                    // Update whether or not the elements are active
+                    d.active = active;                       
+                }) ;    // on "click"
+
+        }); // ContNest
+    }); //d3.csv
+
+    </script>
+</body>
+
+<div class = "footer">
+    &copy; 2015 Wanda Chen </br>
+    <h5>
+    Data gathered from: OECD (2015), Gender wage gap (indicator). doi: 10.1787/7cee77aa-en (Accessed on 10 October 2015) (Accessed on 12 October 2015) (Accessed on 14 October 2015) (Accessed on 20 October 2015) (Accessed on 21 October 2015) </h5>
+</div>
+</html>
