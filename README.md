@@ -22,7 +22,7 @@ Gender Wage Gap Project  - Using Data visualization to see different countries' 
           - show the bar graph with each individual value (below the main graph)
           - the line that belongs to the selected country will be enhanced (thicker than other)
 
-*(update for Version 2) 
+* (update for Version 2) 
 
 8. Make line in the line graph thinner and more opacity, and change the bottom graph smaller.
 9. Update the name for country code.  So when a user clicks the country code in the legend table, in the area 2 header, it shows the country name and code, especially for the code that is really different than the country name.
@@ -34,7 +34,11 @@ Gender Wage Gap Project  - Using Data visualization to see different countries' 
 12.  Update the hover information to add country name to it.
 13.  Instead of bar graph for each country, it will display line chart for each continent alongs in the countries in that continent.
 14.  Remove the line chart in the main graph to show only data points - to avoid dense and clutter.
- 
+
+* (Update Version 4 & 5)
+15. Redesign the first graph - instead of showing each country's datapoint, change to each continent's average datapoint per year.
+16. Because the difficulty of parse time (%Y) and calculated the position of datapoints correctly, so for the main graph, it changed to interger instead of time format for the X-axis.
+
 ### Feedback
 Questions for feed back response:
   * (Q1) What do you notice in the visualization?
@@ -74,6 +78,11 @@ Questions for feed back response:
 
 ##### Response to version 1 Feedback
 Because I do not know how the data was collected and calculated, I really cannout explain why some countries have dramatic difference between years.  When I download the data, it already included the calculated percentage values. 
+
+##### Feedback from Version 3 (Also submitted as project review)
+1. From Amir (Udacity):
+"Good work. I like how you grouped regions of countries together. Did you think of using a choropleth for your visualization?
+Also, I like your line graph better than the top graph. I would suggest using that in place of the point graph or possibly average the regions together and have the bottom graph as a detail graph?"
 
 ### Resources
 1.	OECD (2015), Gender wage gap (indicator). doi: 10.1787/7cee77aa-en (Accessed on 10 October 2015)
