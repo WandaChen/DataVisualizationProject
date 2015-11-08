@@ -80,8 +80,8 @@ Questions for feed back response:
 ##### Response to version 1 Feedback
 Because I do not know how the data was collected and calculated, I really cannout explain why some countries have dramatic difference between years.  When I download the data, it already included the calculated percentage values. 
 
-##### Feedback from Version 3 (Also submitted as project review)
-1. From Amir (Udacity):
+##### Version 3 (Also submitted as project review)
+From Amir (Udacity):
 "Good work. I like how you grouped regions of countries together. Did you think of using a choropleth for your visualization?
 Also, I like your line graph better than the top graph. I would suggest using that in place of the point graph or possibly average the regions together and have the bottom graph as a detail graph?"
 
