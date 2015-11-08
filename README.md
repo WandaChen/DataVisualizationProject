@@ -36,6 +36,7 @@ Gender Wage Gap Project  - Using Data visualization to see different countries' 
 14.  Remove the line chart in the main graph to show only data points - to avoid dense and clutter.
 
 * (Update Version 4 & 5)
+
 15. Redesign the first graph - instead of showing each country's datapoint, change to each continent's average datapoint per year.
 16. Because the difficulty of parse time (%Y) and calculated the position of datapoints correctly, so for the main graph, it changed to interger instead of time format for the X-axis.
 
